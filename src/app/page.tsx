@@ -53,7 +53,7 @@ export default function Home() {
             <input
               type="text"
               required
-              placeholder="+16694449171"
+              placeholder="(US) +1 413-418-4561"
               className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition-all placeholder:text-slate-600"
               value={meetingDetails.dialInNumber}
               onChange={(e) => setMeetingDetails({ ...meetingDetails, dialInNumber: e.target.value })}
@@ -61,11 +61,11 @@ export default function Home() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Meeting ID</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Meeting ID / PIN</label>
             <input
               type="text"
               required
-              placeholder="123456789"
+              placeholder="838 772 169#"
               className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition-all placeholder:text-slate-600"
               value={meetingDetails.meetingId}
               onChange={(e) => setMeetingDetails({ ...meetingDetails, meetingId: e.target.value })}
@@ -87,8 +87,8 @@ export default function Home() {
             type="submit"
             disabled={loading}
             className={`w-full py-4 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 ${loading
-                ? 'bg-slate-700 cursor-not-allowed'
-                : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 active:scale-95 shadow-purple-500/25 shadow-xl'
+              ? 'bg-slate-700 cursor-not-allowed'
+              : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 active:scale-95 shadow-purple-500/25 shadow-xl'
               }`}
           >
             {loading ? 'Initiating...' : 'Invite Agent to Meeting'}

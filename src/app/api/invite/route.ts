@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
     try {
-        const { dialInNumber, meetingId, passcode } = await req.json();
+        let { dialInNumber, meetingId, passcode } = await req.json();
 
         if (!dialInNumber || !meetingId) {
             return NextResponse.json(
@@ -10,6 +10,13 @@ export async function POST(req: NextRequest) {
                 { status: 400 }
             );
         }
+
+        // Sanitize the inputs
+        // This removes spaces, parenthesis, and dashes (e.g., "(US) +1 413-418-4561" -> "+14134184561")
+        dialInNumber = dialInNumber.replace(/[^+\d]/g, '');
+        // This removes spaces and dashes but keeps the digits and '#' (e.g., "838 772 169#" -> "838772169#")
+        meetingId = meetingId.replace(/[^\d#]/g, '');
+
 
         const VAPI_API_KEY = process.env.VAPI_API_KEY;
         const VAPI_ASSISTANT_ID = process.env.VAPI_ASSISTANT_ID;
@@ -42,12 +49,12 @@ export async function POST(req: NextRequest) {
                     name: 'Google Meet',
                     extension: dtmfDigits, // This sends the DTMF automatically
                 },
-                assistantOverrides: {
-                    endCallFunctionEnabled: true,
-                    clientMessages: ['transcript', 'hang', 'function-call', 'speech-update'],
-                    silenceTimeoutSeconds: 30,
-                    maxDurationSeconds: 1200 // Max 20 mins to prevent extreme billing if it hangs
-                }
+                // assistantOverrides: {
+                //     endCallFunctionEnabled: true,
+                //     clientMessages: ['transcript', 'hang', 'function-call', 'speech-update'],
+                //     silenceTimeoutSeconds: 30,
+                //     maxDurationSeconds: 1200 // Max 20 mins to prevent extreme billing if it hangs
+                // }
             }),
         });
 
